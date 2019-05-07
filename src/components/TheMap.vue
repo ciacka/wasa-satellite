@@ -2,17 +2,21 @@
   <div id="the-map">
     <GmapMap
       :options="options"
-      :center="{lat:10, lng:10}"
-      :zoom="3"
+      :center="{lat:0, lng:0}"
+      :zoom="2"
       map-type-id="terrain"
       style="width: 100%; height: 100%"
     >
-      <GmapMarker :key="index" :position="iss.position"/>
+      <GmapMarker :position="iss.position"/>
     </GmapMap>
   </div>
 </template>
 
 <script>
+import { findSatelliteById } from "@/api/wtia";
+
+const ISS_ID = process.env.VUE_APP_ISS_NOMAD_ID;
+
 export default {
   name: "TheMap",
 
@@ -32,8 +36,16 @@ export default {
     };
   },
 
-  mounted() {
-    setTimeout(() => (this.iss.position.lat = 20), 2000);
+  created() {
+    this.fetchISSData();
+  },
+
+  methods: {
+    async fetchISSData() {
+      const issData = await findSatelliteById(ISS_ID);
+      this.iss.position.lat = issData.latitude;
+      this.iss.position.lng = issData.longitude;
+    },
   },
 };
 </script>
