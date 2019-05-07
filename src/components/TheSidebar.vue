@@ -6,7 +6,7 @@
     <h4>Show satellites</h4>
     <ul class="satellites-list">
       <li v-for="satellite in satellites" :key="satellite.id">
-        <input type="checkbox" :checked="visible.includes(satellite.id)">
+        <input type="checkbox" :checked="satellite.visible" @change="toggleSatellite(satellite)">
         {{ satellite.name }}
       </li>
     </ul>
@@ -14,15 +14,18 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "TheSidebar",
 
   computed: mapState({
-    satellites: state => state.availableSatellites,
-    visible: state => state.visibleSatellites,
+    satellites: state => state.satellites,
   }),
+
+  methods: {
+    ...mapActions(["toggleSatellite"]),
+  },
 };
 </script>
 
