@@ -7,28 +7,25 @@
       map-type-id="terrain"
       style="width: 100%; height: 100%"
     >
-      <GmapMarker icon="/iss.png" :position="iss.position"/>
+      <GmapMarker
+        v-for="satellite in satellites"
+        :key="satellite.id"
+        :icon="`/${satellite.icon}`"
+        :position="satellite.position"
+      />
     </GmapMap>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { findSatelliteById } from "@/api/wtia";
-
-const ISS_ID = process.env.VUE_APP_ISS_NOMAD_ID;
 
 export default {
   name: "TheMap",
 
   data() {
     return {
-      iss: {
-        position: {
-          lat: null,
-          lng: null,
-        },
-      },
-
       options: {
         mapTypeControl: false,
         streetViewControl: false,
@@ -36,15 +33,9 @@ export default {
     };
   },
 
-  created() {},
-
-  methods: {
-    async fetchISSData() {
-      const issData = await findSatelliteById(ISS_ID);
-      this.iss.position.lat = issData.latitude;
-      this.iss.position.lng = issData.longitude;
-    },
-  },
+  computed: mapState({
+    satellites: state => state.satellites,
+  }),
 };
 </script>
 
