@@ -34,7 +34,8 @@ export default {
   },
 
   computed: mapState({
-    satellites: state => state.satellites,
+    satellites: state =>
+      state.satellites.filter(satellite => satellite.visible),
   }),
 };
 </script>
