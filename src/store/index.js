@@ -7,7 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   strict: process.env.NODE_ENV !== "production",
   state: {
-    loadingInProgress: false,
+    loadingState: "IDLE",
     satellites: [
       {
         id: 25544,
@@ -24,8 +24,8 @@ export default new Vuex.Store({
       0,
   },
   mutations: {
-    UPDATE_LOADING_STATE: (state, inProgress) => {
-      state.loadingInProgress = inProgress;
+    UPDATE_LOADING_STATE: (state, loadingState) => {
+      state.loadingState = loadingState;
     },
 
     UPDATE_SATELLITE_POSITION: (state, { satellite, position }) => {
@@ -37,23 +37,34 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    updateSatellitesData: ({ commit, state }) => {
+    updateSatellitesData: async ({ commit, state }) => {
       // When loading in progress do not execute this function now
-      if (state.loadingInProgress === true) return;
+      if (state.loadingState.startsWith("IN_PROGRESS")) return;
 
-      commit("UPDATE_LOADING_STATE", true);
+      // We have one satellite only now
+      const satellite = state.satellites[0];
 
-      state.satellites
-        .filter(satellite => satellite.visible === true)
-        .forEach(async satellite => {
-          const { latitude, longitude } = await api.findSatelliteById(
-            satellite.id
-          );
-          const position = { lat: latitude, lng: longitude };
-          commit("UPDATE_SATELLITE_POSITION", { satellite, position });
-        });
+      // When no response after 5s, set state to IN_PROGRESS_SLOW
+      const slowRequestWatcher = setTimeout(
+        () => commit("UPDATE_LOADING_STATE", "IN_PROGRESS_SLOW"),
+        5000
+      );
 
-      commit("UPDATE_LOADING_STATE", false);
+      try {
+        commit("UPDATE_LOADING_STATE", "IN_PROGRESS");
+
+        const { latitude, longitude } = await api.findSatelliteById(
+          satellite.id
+        );
+        const position = { lat: latitude, lng: longitude };
+
+        commit("UPDATE_SATELLITE_POSITION", { satellite, position });
+        commit("UPDATE_LOADING_STATE", "IDLE");
+      } catch (err) {
+        commit("UPDATE_LOADING_STATE", "ERROR");
+      }
+
+      clearTimeout(slowRequestWatcher);
     },
 
     toggleSatellite: ({ commit }, satellite) => {
