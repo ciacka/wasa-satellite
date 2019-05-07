@@ -1,27 +1,29 @@
 <template>
   <div id="app">
-    <GmapMap
-      :center="{lat:10, lng:10}"
-      :zoom="7"
-      map-type-id="terrain"
-      style="width: 500px; height: 300px"
-    />
+    <TheMap/>
   </div>
 </template>
 
 <script>
+import TheMap from "@/components/TheMap.vue";
+
 export default {
   name: "App",
+
+  components: { TheMap },
 };
 </script>
 
 <style lang="scss">
+body,
+html,
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
 }
 </style>
