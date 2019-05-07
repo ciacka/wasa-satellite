@@ -10,6 +10,22 @@
         {{ satellite.name }}
       </li>
     </ul>
+
+    <footer>
+      <div class="credits">
+        Satellite icon made by
+        <a
+          href="https://www.flaticon.com/authors/phatplus"
+          title="phatplus"
+        >phatplus</a> from
+        <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by
+        <a
+          href="http://creativecommons.org/licenses/by/3.0/"
+          title="Creative Commons BY 3.0"
+          target="_blank"
+        >CC 3.0 BY</a>
+      </div>
+    </footer>
   </div>
 </template>
 
@@ -32,6 +48,8 @@ export default {
 
 <style lang="scss" scoped>
 #the-sidebar {
+  display: flex;
+  flex-direction: column;
   padding: 20px;
   width: 250px;
 
@@ -46,9 +64,14 @@ export default {
   }
 
   .satellites-list {
+    flex: 1;
     list-style-type: none;
     margin: 0;
     padding: 0;
+  }
+
+  footer {
+    font-size: 12px;
   }
 }
 </style>
