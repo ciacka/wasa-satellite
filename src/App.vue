@@ -1,16 +1,21 @@
 <template>
   <div id="app">
     <TheMap/>
+    <TheSidebar/>
   </div>
 </template>
 
 <script>
 import TheMap from "@/components/TheMap.vue";
+import TheSidebar from "@/components/TheSidebar.vue";
 
 export default {
   name: "App",
 
-  components: { TheMap },
+  components: {
+    TheMap,
+    TheSidebar,
+  },
 };
 </script>
 
@@ -25,5 +30,9 @@ html,
 body {
   margin: 0;
   padding: 0;
+}
+
+#app {
+  display: flex;
 }
 </style>
