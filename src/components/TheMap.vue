@@ -7,7 +7,7 @@
       map-type-id="terrain"
       style="width: 100%; height: 100%"
     >
-      <GmapMarker :position="iss.position"/>
+      <GmapMarker icon="/iss.png" :position="iss.position"/>
     </GmapMap>
   </div>
 </template>
@@ -24,8 +24,8 @@ export default {
     return {
       iss: {
         position: {
-          lat: 19,
-          lng: 40,
+          lat: null,
+          lng: null,
         },
       },
 
@@ -36,9 +36,7 @@ export default {
     };
   },
 
-  created() {
-    this.fetchISSData();
-  },
+  created() {},
 
   methods: {
     async fetchISSData() {
