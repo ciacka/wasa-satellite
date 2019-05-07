@@ -36,7 +36,7 @@ export default {
   methods: {
     ...mapActions(["updateSatellitesData"]),
 
-    async initialize() {
+    initialize() {
       if (this.isAnyVisible) {
         this.turnUpdatesOn();
       }
