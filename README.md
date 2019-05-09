@@ -4,9 +4,13 @@ This simple project show current position of satellites (ISS for now only).
 
 ## Project setup
 
+1. Install required packaged:
+
 ```
 npm install
 ```
+
+2. Copy `.env` file to `.env.local` and set Google Maps API key.
 
 ### Compiles and hot-reloads for development
 
